@@ -10,5 +10,7 @@ module Start
 
   def register
     session[:id] = from['id']
+    @http_client.post('/users', {user: { name: session[:id]}})
+    respond_with :message, text: 'Hello!'
   end
 end

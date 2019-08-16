@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'pry'
 gem 'telegram-bot', '~> 0.14.2'
 gem 'faraday'
 gem 'activesupport'
