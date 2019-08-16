@@ -14,6 +14,18 @@ class WebhooksController < Telegram::Bot::UpdatesController
   include Order
   include Recommend
 
+  MSG = {
+  	success_registration: 'Registration done',
+  	already_registered:'No need to register again',
+  }.freeze
+
+  def notify(msg_key)
+    respond_with :message, text: MSG[msg_key]
+  end
+
+  def registered?
+    session.key?(:id)
+  end
 end
 
 Telegram::Bot::UpdatesController.session_store = :redis_store, { expires_in: 1.month }
