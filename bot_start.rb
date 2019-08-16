@@ -1,20 +1,23 @@
 require 'telegram/bot'
+require 'time'
+require 'redis'
+require 'active_support/all'
 require_relative 'order.rb'
-require_relative 'registration.rb'
+require_relative 'start.rb'
 require_relative 'menu.rb'
 require_relative 'recommend.rb'
 
 class WebhooksController < Telegram::Bot::UpdatesController
-  include Order
-  include Registration
+  include Telegram::Bot::UpdatesController::MessageContext
+  include Start
   include Menu
-  include Recommrend
+  include Order
+  include Recommend
+
 end
 
-def initialize(*)
-  super
-    Telegram::Bot::UpdatesController.session_store = :redis_store, { expires_in: 1.month }
-end
+Telegram::Bot::UpdatesController.session_store = :redis_store, { expires_in: 1.month }
+
 
 TOKEN = ENV['TOKEN']
 bot = Telegram::Bot::Client.new(TOKEN)
